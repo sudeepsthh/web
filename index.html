@@ -348,57 +348,65 @@
             z-index: 1;
         }
 
+        /* ----------------------------------------------------- */
+        /* START FIXED PHOTOGRAPHY/GALLERY SECTION */
+        /* ----------------------------------------------------- */
+        
+        /* Using column-count for Masonry Layout (Natural Aspect Ratio) */
         .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            column-count: 3;
+            column-gap: 25px;
             margin-bottom: 50px;
-            max-height: 800px;
-            overflow: hidden;
-            transition: max-height 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.5s ease;
         }
 
-        .gallery-grid.expanded {
-            max-height: 5000px;
-        }
-
+        /* Control Visibility for 'See More' functionality */
         .hidden-gallery {
             display: none;
         }
-
-        /* --- UPGRADED PHOTO REVEAL ANIMATION --- */
+        
         .hidden-gallery.show {
-            display: flex;
+            display: inline-block; /* Essential for Masonry columns */
+            width: 100%;
             animation: revealSmooth 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
         @keyframes revealSmooth {
-            from { 
-                opacity: 0; 
-                transform: translateY(50px) scale(0.95);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(50px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .gallery-item {
-            aspect-ratio: 1;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
+            position: relative;
             border-radius: 20px;
             overflow: hidden;
-            position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 64px;
+            margin-bottom: 25px; /* Spacing between vertical items */
+            break-inside: avoid; /* Prevents image from being cut between columns */
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
             cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             opacity: 0;
             animation: fadeInUp 0.8s ease forwards;
+            display: inline-block; /* Keeps item intact in column */
+            width: 100%;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto; /* Maintains Natural Aspect Ratio */
+            display: block;
+            transition: transform 0.7s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
         }
 
         .gallery-item:nth-child(1) { animation-delay: 0.1s; }
@@ -408,35 +416,59 @@
         .gallery-item:nth-child(5) { animation-delay: 0.5s; }
         .gallery-item:nth-child(6) { animation-delay: 0.6s; }
 
-        .gallery-item::before {
-            content: '';
-            position: absolute;
+        /* Lightbox Styles */
+        .lightbox {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             opacity: 0;
-            transition: opacity 0.5s;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 40px;
         }
 
-        .gallery-item:hover {
-            transform: scale(1.05) translateZ(20px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            border-color: var(--accent);
-        }
-
-        .gallery-item:hover::before {
+        .lightbox.active {
             opacity: 1;
+            pointer-events: auto;
         }
 
-        .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* --- UPGRADED PERFECT GALLERY BUTTON --- */
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.3s;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+            color: var(--accent);
+        }
+
+        /* ----------------------------------------------------- */
+        /* END FIXED PHOTOGRAPHY SECTION */
+        /* ----------------------------------------------------- */
+
         .perfect-gallery-btn {
             display: inline-flex;
             align-items: center;
@@ -900,7 +932,12 @@
                 gap: 20px;
             }
 
-            .cards-grid, .gallery-grid, .contact-grid {
+            /* Gallery Update for Mobile: Single Column */
+            .gallery-grid {
+                column-count: 1 !important;
+            }
+            
+            .contact-grid {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
@@ -1025,7 +1062,12 @@
                 gap: 25px;
             }
 
-            .gallery-grid, .contact-grid {
+            /* Gallery Update for Tablet: 2 Columns */
+            .gallery-grid {
+                column-count: 2 !important;
+            }
+
+            .contact-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 25px;
             }
@@ -1191,18 +1233,43 @@
             <h2 class="section-title">Photography</h2>
         </div>
         <div class="gallery-grid" id="galleryGrid">
-            <div class="gallery-item">📷</div>
-            <div class="gallery-item">📷</div>
-            <div class="gallery-item">📷</div>
-            <div class="gallery-item">📷</div>
-            <div class="gallery-item">📷</div>
-            <div class="gallery-item">📷</div>
-            <div class="gallery-item hidden-gallery">📷</div>
-            <div class="gallery-item hidden-gallery">📷</div>
-            <div class="gallery-item hidden-gallery">📷</div>
-            <div class="gallery-item hidden-gallery">📷</div>
-            <div class="gallery-item hidden-gallery">📷</div>
-            <div class="gallery-item hidden-gallery">📷</div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/600/800" alt="Gallery Photo 1">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/800/600" alt="Gallery Photo 2">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/600/900" alt="Gallery Photo 3">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/800/500" alt="Gallery Photo 4">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/700/700" alt="Gallery Photo 5">
+            </div>
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/600/750" alt="Gallery Photo 6">
+            </div>
+            
+            <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/600/850" alt="Gallery Photo 7">
+            </div>
+            <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/800/600" alt="Gallery Photo 8">
+            </div>
+            <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/600/600" alt="Gallery Photo 9">
+            </div>
+            <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/900/600" alt="Gallery Photo 10">
+            </div>
+            <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/600/800" alt="Gallery Photo 11">
+            </div>
+            <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
+                <img src="https://picsum.photos/800/800" alt="Gallery Photo 12">
+            </div>
         </div>
         <div style="text-align: center; margin-top: 40px;">
             <button class="perfect-gallery-btn" id="seeMoreBtn" onclick="toggleGallery(event)">
@@ -1211,6 +1278,11 @@
             </button>
         </div>
     </section>
+
+    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+        <img id="lightbox-img" src="" alt="Full Screen Photo">
+    </div>
 
     <section id="cv">
         <div class="cv-section">
@@ -1304,19 +1376,43 @@
             const hiddenItems = document.querySelectorAll('.hidden-gallery');
             const btn = document.getElementById('seeMoreBtn');
             const btnText = document.getElementById('btnText');
-            const grid = document.getElementById('galleryGrid');
+            // We don't need 'expanded' class on grid anymore due to column layout
             
             hiddenItems.forEach(item => {
                 item.classList.toggle('show');
             });
             
-            grid.classList.toggle('expanded');
             btn.classList.toggle('active');
             
-            if (grid.classList.contains('expanded')) {
+            // Check if any hidden item is currently shown to determine button text
+            const isShown = document.querySelector('.hidden-gallery.show');
+            
+            if (isShown) {
                 btnText.textContent = 'Show Less';
             } else {
                 btnText.textContent = 'See More Photos';
+            }
+        }
+
+        /* --- NEW LIGHTBOX LOGIC --- */
+        function openLightbox(element) {
+            const img = element.querySelector('img');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            if (img && lightbox && lightboxImg) {
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+        }
+
+        function closeLightbox(event) {
+            // Close if clicked on background or close button, but not the image itself
+            if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
+                const lightbox = document.getElementById('lightbox');
+                lightbox.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
             }
         }
 
