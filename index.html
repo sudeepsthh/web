@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sudip Shrestha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -16,7 +17,7 @@
             --text: #ffffff;
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
-            --accent: #a855f7; /* Changed to Purple */
+            --accent: #a855f7;
         }
 
         [data-theme="light"] {
@@ -24,7 +25,7 @@
             --text: #0a0a0a;
             --glass-bg: rgba(0, 0, 0, 0.03);
             --glass-border: rgba(0, 0, 0, 0.1);
-            --accent: #9333ea; /* Changed to Deep Purple */
+            --accent: #9333ea;
         }
 
         body {
@@ -218,6 +219,8 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            display: inline-block;
         }
 
         .glass-btn::before {
@@ -349,10 +352,9 @@
         }
 
         /* ----------------------------------------------------- */
-        /* START FIXED PHOTOGRAPHY/GALLERY SECTION */
+        /* GALLERY SECTION */
         /* ----------------------------------------------------- */
         
-        /* Using column-count for Masonry Layout (Natural Aspect Ratio) */
         .gallery-grid {
             column-count: 3;
             column-gap: 25px;
@@ -360,15 +362,39 @@
             transition: all 0.5s ease;
         }
 
-        /* Control Visibility for 'See More' functionality */
-        .hidden-gallery {
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 25px; 
+            break-inside: avoid; 
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block; 
+            width: 100%;
+        }
+
+        .gallery-item:not(.hidden-gallery) {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .gallery-item:not(.hidden-gallery):nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:not(.hidden-gallery):nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:not(.hidden-gallery):nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:not(.hidden-gallery):nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:not(.hidden-gallery):nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:not(.hidden-gallery):nth-child(6) { animation-delay: 0.6s; }
+
+        .gallery-item.hidden-gallery {
             display: none;
         }
         
-        .hidden-gallery.show {
-            display: inline-block; /* Essential for Masonry columns */
-            width: 100%;
-            animation: revealSmooth 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        .gallery-item.hidden-gallery.show {
+            display: inline-block !important;
+            animation: revealSmooth 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
         }
 
         @keyframes revealSmooth {
@@ -376,25 +402,9 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .gallery-item {
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-            margin-bottom: 25px; /* Spacing between vertical items */
-            break-inside: avoid; /* Prevents image from being cut between columns */
-            border: 1px solid var(--glass-border);
-            background: var(--glass-bg);
-            cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-            animation: fadeInUp 0.8s ease forwards;
-            display: inline-block; /* Keeps item intact in column */
-            width: 100%;
-        }
-
         .gallery-item img {
             width: 100%;
-            height: auto; /* Maintains Natural Aspect Ratio */
+            height: auto;
             display: block;
             transition: transform 0.7s ease;
         }
@@ -408,13 +418,6 @@
         .gallery-item:hover img {
             transform: scale(1.05);
         }
-
-        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
-        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
-        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
-        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
-        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
-        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
 
         /* Lightbox Styles */
         .lightbox {
@@ -464,10 +467,6 @@
             transform: rotate(90deg);
             color: var(--accent);
         }
-
-        /* ----------------------------------------------------- */
-        /* END FIXED PHOTOGRAPHY SECTION */
-        /* ----------------------------------------------------- */
 
         .perfect-gallery-btn {
             display: inline-flex;
@@ -664,8 +663,12 @@
             min-height: 150px;
         }
 
+        /* ----------------------------------------------------- */
+        /* FOOTER & SOCIALS & MODAL */
+        /* ----------------------------------------------------- */
+
         footer {
-            padding: 80px 60px;
+            padding: 80px 60px 40px 60px; /* Reduced bottom padding */
             border-top: 1px solid var(--glass-border);
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -695,7 +698,7 @@
             gap: 15px;
         }
 
-        .footer-links a, .footer-links span {
+        .footer-links a, .footer-links span, .footer-links button {
             color: var(--text);
             text-decoration: none;
             opacity: 0.7;
@@ -704,26 +707,24 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
         }
 
-        .footer-links a:hover {
+        .footer-links a:hover, .footer-links button:hover {
             opacity: 1;
             color: var(--accent);
             transform: translateX(5px);
         }
 
-        .footer-bottom {
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
-            opacity: 0.5;
-            font-size: 13px;
-        }
-
         .social-links {
             display: flex;
             gap: 15px;
+            margin-top: 20px;
         }
 
         .social-link {
@@ -738,12 +739,100 @@
             font-size: 18px;
             transition: all 0.3s;
             text-decoration: none;
+            color: var(--text);
         }
 
         .social-link:hover {
             border-color: var(--accent);
             background: rgba(168, 85, 247, 0.1);
             transform: translateY(-3px);
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            margin-top: 40px; /* Reduced margin */
+            padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+            opacity: 0.5;
+            font-size: 13px;
+        }
+
+        /* --- ASSIGNMENT MODAL STYLES --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 11000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: #1a1a1a; /* darker solid background for readability */
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        
+        /* Light mode override for modal */
+        [data-theme="light"] .modal-content {
+            background: #ffffff;
+            color: #000;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .modal-instruction {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 25px;
+            line-height: 1.5;
         }
 
         .mobile-menu-btn {
@@ -932,7 +1021,6 @@
                 gap: 20px;
             }
 
-            /* Gallery Update for Mobile: Single Column */
             .gallery-grid {
                 column-count: 1 !important;
             }
@@ -1062,7 +1150,6 @@
                 gap: 25px;
             }
 
-            /* Gallery Update for Tablet: 2 Columns */
             .gallery-grid {
                 column-count: 2 !important;
             }
@@ -1176,9 +1263,9 @@
             <h2 class="section-title">About Me</h2>
         </div>
         <div class="about-content">
-            <p>I'm a Computer Science educator based in Miyapatan, Pokhara, passionate about making technology accessible and inspiring students to think critically and creatively.</p>
-            <p>My approach combines technical expertise with creative problem-solving, helping students build both skills and confidence in the digital world.</p>
-            <p>Beyond teaching, I explore photography as a way to document the world around me and share stories through images.</p>
+            <p>I am Sudeep Shrestha from Pokhara, a teacher and bachelor’s student, primarily teaching computer science while also supporting students in mathematics and science.
+
+With a strong teaching approach focused on clarity and structure, I am passionate about learning, exploring new ideas, and photography.</p>
         </div>
     </section>
 
@@ -1234,41 +1321,31 @@
         </div>
         <div class="gallery-grid" id="galleryGrid">
             <div class="gallery-item" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/600/800" alt="Gallery Photo 1">
+                <img src="image1.jpg" alt="Gallery Photo 1">
             </div>
             <div class="gallery-item" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/800/600" alt="Gallery Photo 2">
+                <img src="image2.jpg" alt="Gallery Photo 2">
             </div>
             <div class="gallery-item" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/600/900" alt="Gallery Photo 3">
+                <img src="image3.jpg" alt="Gallery Photo 3">
             </div>
             <div class="gallery-item" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/800/500" alt="Gallery Photo 4">
+                <img src="image4.jpg" alt="Gallery Photo 4">
             </div>
             <div class="gallery-item" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/700/700" alt="Gallery Photo 5">
+                <img src="image5.jpg" alt="Gallery Photo 5">
             </div>
             <div class="gallery-item" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/600/750" alt="Gallery Photo 6">
-            </div>
-            
-            <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/600/850" alt="Gallery Photo 7">
+                <img src="image6.jpg" alt="Gallery Photo 6">
             </div>
             <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/800/600" alt="Gallery Photo 8">
+                <img src="image7.jpg" alt="Gallery Photo 7">
             </div>
             <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/600/600" alt="Gallery Photo 9">
+                <img src="image8.jpg" alt="Gallery Photo 8">
             </div>
             <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/900/600" alt="Gallery Photo 10">
-            </div>
-            <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/600/800" alt="Gallery Photo 11">
-            </div>
-            <div class="gallery-item hidden-gallery" onclick="openLightbox(this)">
-                <img src="https://picsum.photos/800/800" alt="Gallery Photo 12">
+                <img src="image9.jpg" alt="Gallery Photo 9">
             </div>
         </div>
         <div style="text-align: center; margin-top: 40px;">
@@ -1323,6 +1400,12 @@
             <div class="footer-section">
                 <h4>Sudip Shrestha</h4>
                 <p style="opacity: 0.7; line-height: 1.6; font-size: 14px;">Computer Science educator passionate about making technology accessible and inspiring the next generation of developers.</p>
+                <div class="social-links">
+                    <a href="https://facebook.com" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://instagram.com" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com" target="_blank" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="https://whatsapp.com" target="_blank" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                </div>
             </div>
             
             <div class="footer-section">
@@ -1333,6 +1416,7 @@
                     <a href="#gallery">Photography</a>
                     <a href="#cv">Download CV</a>
                     <a href="#contact">Contact</a>
+                    <button onclick="openAssignmentModal()">Submit Assignment</button>
                 </div>
             </div>
             
@@ -1349,6 +1433,33 @@
             &copy; 2024 Sudip Shrestha. All rights reserved.
         </div>
     </footer>
+
+    <div class="modal-overlay" id="assignmentModal" onclick="closeAssignmentModal(event)">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAssignmentModal(event)">✕</button>
+            <h3 class="modal-title">Submit Assignment</h3>
+            <p class="modal-instruction">
+                Fill in your details, attach your file, and click send. It will be sent automatically to the instructor.
+            </p>
+            
+            <form action="https://formsubmit.co/sudeepstha1718@gmail.com" method="POST" enctype="multipart/form-data">
+                
+                <input type="hidden" name="_captcha" value="false">
+                
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <input type="text" name="name" class="form-input" placeholder="Your Name" required>
+                    
+                    <textarea name="message" class="form-input" style="min-height: 100px;" placeholder="Add a message for the teacher..." required></textarea>
+                    
+                    <label style="font-size: 14px; opacity: 0.8; margin-bottom: -10px;">Attach File:</label>
+                    <input type="file" name="attachment" class="form-input" accept=".pdf,.doc,.docx,.jpg,.png,.zip" required>
+                    
+                    <button type="submit" class="glass-btn" style="width: 100%; margin-top: 10px; justify-content: center;">Send Assignment</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
 
     <script>
         function toggleMobileMenu() {
@@ -1370,13 +1481,11 @@
             localStorage.setItem('theme', newTheme);
         }
 
-        /* --- UPDATED TOGGLE GALLERY LOGIC --- */
         function toggleGallery(event) {
             event.preventDefault();
             const hiddenItems = document.querySelectorAll('.hidden-gallery');
             const btn = document.getElementById('seeMoreBtn');
             const btnText = document.getElementById('btnText');
-            // We don't need 'expanded' class on grid anymore due to column layout
             
             hiddenItems.forEach(item => {
                 item.classList.toggle('show');
@@ -1384,7 +1493,6 @@
             
             btn.classList.toggle('active');
             
-            // Check if any hidden item is currently shown to determine button text
             const isShown = document.querySelector('.hidden-gallery.show');
             
             if (isShown) {
@@ -1394,7 +1502,6 @@
             }
         }
 
-        /* --- NEW LIGHTBOX LOGIC --- */
         function openLightbox(element) {
             const img = element.querySelector('img');
             const lightbox = document.getElementById('lightbox');
@@ -1403,16 +1510,15 @@
             if (img && lightbox && lightboxImg) {
                 lightboxImg.src = img.src;
                 lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling
+                document.body.style.overflow = 'hidden'; 
             }
         }
 
         function closeLightbox(event) {
-            // Close if clicked on background or close button, but not the image itself
             if (event.target.id === 'lightbox' || event.target.classList.contains('lightbox-close')) {
                 const lightbox = document.getElementById('lightbox');
                 lightbox.classList.remove('active');
-                document.body.style.overflow = ''; // Restore scrolling
+                document.body.style.overflow = ''; 
             }
         }
 
@@ -1421,6 +1527,22 @@
             const form = event.target;
             alert('Thank you for your message! I will get back to you soon.');
             form.reset();
+        }
+
+        /* --- ASSIGNMENT MODAL LOGIC --- */
+        function openAssignmentModal() {
+            document.getElementById('assignmentModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAssignmentModal(event) {
+            if (event && (event.target.id === 'assignmentModal' || event.target.classList.contains('modal-close'))) {
+                document.getElementById('assignmentModal').classList.remove('active');
+                document.body.style.overflow = '';
+            } else if (!event) {
+                document.getElementById('assignmentModal').classList.remove('active');
+                document.body.style.overflow = '';
+            }
         }
 
         const savedTheme = localStorage.getItem('theme') || 'dark';
