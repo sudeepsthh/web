@@ -207,7 +207,7 @@
         }
 
         .glass-btn {
-            padding: 16px 36px;
+             padding: 16px 36px;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
@@ -219,8 +219,6 @@
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
-            cursor: pointer;
-            display: inline-block;
         }
 
         .glass-btn::before {
@@ -1248,9 +1246,9 @@
     </div>
 
     <section class="hero">
-        <div class="hero-tag">Educator & Developer</div>
+        <div class="hero-tag">Computer Science | Teacher</div>
         <h1>SUDIP<br>SHRESTHA</h1>
-        <p class="hero-subtitle">Computer Science Teacher • Web Developer • Photographer</p>
+        <p class="hero-subtitle">Educating with Clarity and Passion</p>
         <div class="hero-links">
             <a href="tel:9805230700" class="glass-btn">📞 Call</a>
             <a href="mailto:sudeepstha1121@gmail.com" class="glass-btn">✉️ Email</a>
@@ -1376,18 +1374,21 @@ With a strong teaching approach focused on clarity and structure, I am passionat
         </div>
         <div style="max-width: 700px; margin: 0 auto;">
             <div class="contact-form-container">
-                <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+                <form class="contact-form" action="https://formsubmit.co/sudeepstha1121@gmail.com" method="POST">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    
                     <div class="form-group">
-                        <input type="text" placeholder="Your Name" required class="form-input">
+                        <input type="text" name="name" placeholder="Your Name" required class="form-input">
                     </div>
                     <div class="form-group">
-                        <input type="email" placeholder="Your Email" required class="form-input">
+                        <input type="email" name="email" placeholder="Your Email" required class="form-input">
                     </div>
                     <div class="form-group">
-                        <input type="text" placeholder="Subject" required class="form-input">
+                        <input type="text" name="subject" placeholder="Subject" required class="form-input">
                     </div>
                     <div class="form-group">
-                        <textarea placeholder="Your Message" rows="6" required class="form-input"></textarea>
+                        <textarea name="message" placeholder="Your Message" rows="6" required class="form-input"></textarea>
                     </div>
                     <button type="submit" class="glass-btn" style="width: 100%;">Send Message</button>
                 </form>
@@ -1399,7 +1400,7 @@ With a strong teaching approach focused on clarity and structure, I am passionat
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Sudip Shrestha</h4>
-                <p style="opacity: 0.7; line-height: 1.6; font-size: 14px;">Computer Science educator passionate about making technology accessible and inspiring the next generation of developers.</p>
+                <p style="opacity: 0.7; line-height: 1.6; font-size: 14px;">Anyone can do my job, but no one can be me.</p>
                 <div class="social-links">
                     <a href="https://facebook.com" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://instagram.com" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -1522,13 +1523,6 @@ With a strong teaching approach focused on clarity and structure, I am passionat
             }
         }
 
-        function handleSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            alert('Thank you for your message! I will get back to you soon.');
-            form.reset();
-        }
-
         /* --- ASSIGNMENT MODAL LOGIC --- */
         function openAssignmentModal() {
             document.getElementById('assignmentModal').classList.add('active');
@@ -1574,5 +1568,3 @@ With a strong teaching approach focused on clarity and structure, I am passionat
     </script>
 </body>
 </html>
-
-
